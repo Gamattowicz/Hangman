@@ -1,5 +1,6 @@
 import pygame
 import os
+from math import sqrt
 
 # Display variables
 WIDTH, HEIGHT = 900, 600
@@ -81,7 +82,12 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print(pygame.mouse.get_pos())
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                for letter in letters:
+                    x, y, ltr = letter
+                    dist = sqrt((x - mouse_x)**2 + (y - mouse_y)**2)
+                    if dist < RADIUS:
+                        print(ltr)
     pygame.quit()
 
 
