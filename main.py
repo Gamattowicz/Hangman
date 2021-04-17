@@ -84,6 +84,15 @@ def draw():
     pygame.display.update()
 
 
+def display_result(msg):
+    WIN.fill(WHITE)
+    text = WORD_FONT.render(msg, 1, BLACK)
+    WIN.blit(text, (WIDTH / 2 - text.get_width() / 2, HEIGHT / 2 -
+                    text.get_height() / 2))
+    pygame.display.update()
+    pygame.time.delay(4000)
+
+
 def main():
     global mistakes_number
 
@@ -115,11 +124,11 @@ def main():
                 break
 
         if won:
-            print('You won!')
+            display_result('You Won!')
             break
 
         if mistakes_number == 6:
-            print('You lost!')
+            display_result('You Lost!')
             break
 
     pygame.quit()
