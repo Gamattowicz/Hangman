@@ -54,7 +54,7 @@ HANGMAN_IMAGES = [pygame.image.load(os.path.join('Assets', f'hangman'
 
 # Game variables
 FPS = 60
-mistakes = 0
+mistakes_number = 0
 word = 'developer'
 guessed = []
 
@@ -66,11 +66,11 @@ def draw():
     display_word = ''
     for letter in word:
         if letter in guessed:
-            display_word += letter + ''
+            display_word += letter + ' '
         else:
             display_word += '_ '
     text = WORD_FONT.render(display_word, 1, BLACK)
-    WIN.blit(text, (400, 200))
+    WIN.blit(text, (300, 100))
 
     # draw buttons
     for letter in letters:
@@ -80,11 +80,13 @@ def draw():
             text = LETTER_FONT.render(ltr, 1, BLACK)
             WIN.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
-    WIN.blit(HANGMAN_IMAGES[mistakes], (150, 50))
+    WIN.blit(HANGMAN_IMAGES[mistakes_number], (100, 50))
     pygame.display.update()
 
 
 def main():
+    global mistakes_number
+
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -103,6 +105,23 @@ def main():
                         dist = sqrt((x - mouse_x)**2 + (y - mouse_y)**2)
                         if dist < RADIUS:
                             letter[3] = False
+                            guessed.append(ltr)
+                            if ltr not in word:
+                                mistakes_number += 1
+        won = True
+        for letter in word:
+            if letter not in guessed:
+                won = False
+                break
+
+        if won:
+            print('You won!')
+            break
+
+        if mistakes_number == 6:
+            print('You lost!')
+            break
+
     pygame.quit()
 
 
