@@ -15,6 +15,7 @@ BLACK = (0, 0, 0)
 # Fonts
 LETTER_FONT = pygame.font.SysFont('arial', 40)
 WORD_FONT = pygame.font.SysFont('arial', 60)
+TITLE_FONT = pygame.font.SysFont('arial', 70)
 
 # Button variables
 RADIUS = 30
@@ -62,6 +63,10 @@ guessed = []
 def draw():
     WIN.fill(WHITE)
 
+    # draw title
+    text = TITLE_FONT.render('HANGMAN GAME', 1, BLACK)
+    WIN.blit(text, (WIDTH/2 - text.get_width()/2, 20))
+
     # draw word
     display_word = ''
     for letter in word:
@@ -70,7 +75,7 @@ def draw():
         else:
             display_word += '_ '
     text = WORD_FONT.render(display_word, 1, BLACK)
-    WIN.blit(text, (300, 100))
+    WIN.blit(text, (350, 175))
 
     # draw buttons
     for letter in letters:
@@ -80,7 +85,8 @@ def draw():
             text = LETTER_FONT.render(ltr, 1, BLACK)
             WIN.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
-    WIN.blit(HANGMAN_IMAGES[mistakes_number], (100, 50))
+    # draw image
+    WIN.blit(HANGMAN_IMAGES[mistakes_number], (100, 100))
     pygame.display.update()
 
 
