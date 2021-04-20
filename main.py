@@ -1,6 +1,7 @@
 import pygame
 import os
 from math import sqrt
+import random
 
 # Display variables
 WIDTH, HEIGHT = 900, 600
@@ -25,7 +26,7 @@ letters = []
 # First row coordinates
 startx = round((WIDTH - (RADIUS * 2 + GAP) * 10) / 2)
 starty = 375
-qwerty_keyboard = 'qwertyuiop'
+qwerty_keyboard = 'QWERTYUIOP'
 for i in range(10):
     x = startx + GAP * 2 + (RADIUS * 2 + GAP) * (i % 10)
     y = starty + ((i // 10) * (GAP + RADIUS * 2))
@@ -34,7 +35,7 @@ for i in range(10):
 # Second row coordinates
 startx2 = round((WIDTH - (RADIUS * 2 + GAP) * 9) / 2)
 starty2 = starty + (RADIUS * 2 + GAP)
-qwerty_keyboard2 = 'asdfghjkl'
+qwerty_keyboard2 = 'ASDFGHJKL'
 for i in range(9):
     x = startx2 + GAP * 2 + (RADIUS * 2 + GAP) * (i % 9)
     y = starty2 + ((i // 9) * (GAP + RADIUS * 2))
@@ -43,7 +44,7 @@ for i in range(9):
 # Third row coordinates
 startx3 = round((WIDTH - (RADIUS * 2 + GAP) * 7) / 2)
 starty3 = starty + 2 * (RADIUS * 2 + GAP)
-qwerty_keyboard3 = 'zxcvbnm'
+qwerty_keyboard3 = 'ZXCVBNM'
 for i in range(7):
     x = startx3 + GAP * 2 + (RADIUS * 2 + GAP) * (i % 7)
     y = starty3 + ((i // 7) * (GAP + RADIUS * 2))
@@ -54,9 +55,9 @@ HANGMAN_IMAGES = [pygame.image.load(os.path.join('Assets', f'hangman'
                                                  f'{num}.png')) for num in range(7)]
 
 # Game variables
-FPS = 60
 mistakes_number = 0
-word = 'developer'
+words = ['FIRST', 'SECOND', 'THIRD', 'DEVELOPER']
+word = random.choice(words)
 guessed = []
 
 
@@ -91,23 +92,23 @@ def draw():
 
 
 def display_result(msg):
+    pygame.time.delay(1500)
     WIN.fill(WHITE)
     text = WORD_FONT.render(msg, 1, BLACK)
     WIN.blit(text, (WIDTH / 2 - text.get_width() / 2, HEIGHT / 2 -
                     text.get_height() / 2))
     pygame.display.update()
-    pygame.time.delay(4000)
+    pygame.time.delay(3000)
 
 
 def main():
     global mistakes_number
 
+    FPS = 60
     clock = pygame.time.Clock()
     run = True
     while run:
         clock.tick(FPS)
-
-        draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -123,6 +124,9 @@ def main():
                             guessed.append(ltr)
                             if ltr not in word:
                                 mistakes_number += 1
+
+        draw()
+
         won = True
         for letter in word:
             if letter not in guessed:
