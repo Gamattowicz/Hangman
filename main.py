@@ -8,6 +8,7 @@ WIDTH, HEIGHT = 900, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('HANGMAN GAME')
 pygame.init()
+timer = 0
 
 # Colors
 WHITE = (255, 255, 255)
@@ -88,6 +89,14 @@ def draw():
 
     # draw image
     WIN.blit(HANGMAN_IMAGES[mistakes_number], (100, 100))
+
+    # draw timer
+    mins = timer // 60
+    formatted_mins = f'0{mins}' if mins < 10 else mins
+    secs = timer - mins * 60
+    formatted_secs = f'0{secs}' if secs < 10 else secs
+    watch = TITLE_FONT.render(f'Timer {formatted_mins}:{formatted_secs}', 1, BLACK)
+    WIN.blit(watch, (550, 100))
     pygame.display.update()
 
 
@@ -103,12 +112,18 @@ def display_result(msg):
 
 def main():
     global mistakes_number
+    global timer
 
-    FPS = 60
+    time_elapsed = 0
     clock = pygame.time.Clock()
     run = True
     while run:
-        clock.tick(FPS)
+        time_elapsed += clock.get_rawtime()
+        clock.tick()
+
+        if time_elapsed / 1000 > 1:
+            time_elapsed = 0
+            timer += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -120,6 +135,7 @@ def main():
                     if visible:
                         dist = sqrt((x - mouse_x)**2 + (y - mouse_y)**2)
                         if dist < RADIUS:
+                            pygame.time.delay(200)
                             letter[3] = False
                             guessed.append(ltr)
                             if ltr not in word:
