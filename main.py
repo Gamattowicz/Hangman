@@ -5,6 +5,7 @@ import random
 import sys
 from pathlib import Path
 from player import Player
+from menu import draw_menu, pause, BACKGROUND_COLOR
 
 # Display variables
 WIDTH, HEIGHT = 900, 600
@@ -120,11 +121,10 @@ def display_result(msg):
     pygame.time.delay(3000)
 
 
-def main():
+def main(player):
     global mistakes_number
     global timer
 
-    player = Player()
     time_elapsed = 0
     clock = pygame.time.Clock()
     run = True
@@ -141,7 +141,10 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pause(WIN, WIDTH, HEIGHT, main, main_menu, player)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for letter in letters:
                     x, y, ltr, visible = letter
@@ -176,5 +179,42 @@ def main():
     sys.exit()
 
 
+def main_menu(surface):
+    active = 1
+    player = Player()
+    run = True
+
+    while run:
+        surface.fill(BACKGROUND_COLOR)
+        buttons = ['NEW GAME', 'EXIT']
+        draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    if active == 2:
+                        active = 1
+                    else:
+                        active += 1
+                elif event.key == pygame.K_UP:
+                    if active == 1:
+                        active = 2
+                    else:
+                        active -= 1
+                elif event.key == pygame.K_RETURN:
+                    if active == 1:
+                        main(player)
+                    elif active == 5:
+                        pygame.quit()
+                        sys.exit()
+
+    pygame.quit()
+    sys.exit()
+
+
 if __name__ == '__main__':
-    main()
+    main_menu(WIN)
