@@ -4,6 +4,7 @@ from math import sqrt
 import random
 import sys
 from pathlib import Path
+from player import Player
 
 # Display variables
 WIDTH, HEIGHT = 900, 600
@@ -67,6 +68,7 @@ with open(path, 'r') as f:
     for line in f:
         words.append(line[:-1])
 word = random.choice(words).upper()
+print(word)
 guessed = []
 
 
@@ -122,6 +124,7 @@ def main():
     global mistakes_number
     global timer
 
+    player = Player()
     time_elapsed = 0
     clock = pygame.time.Clock()
     run = True
@@ -132,6 +135,7 @@ def main():
         if time_elapsed / 1000 > 1:
             time_elapsed = 0
             timer += 1
+            player.timer += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -159,6 +163,8 @@ def main():
                 break
 
         if won:
+            player.score += 10
+            player.save_score(player.format_timer)
             display_result('You Won!')
             break
 
