@@ -103,12 +103,10 @@ def draw(player):
     WIN.blit(HANGMAN_IMAGES[mistakes_number], (100, 100))
 
     # draw timer
-    mins = timer // 60
-    formatted_mins = f'0{mins}' if mins < 10 else mins
-    secs = timer - mins * 60
-    formatted_secs = f'0{secs}' if secs < 10 else secs
-    watch = TITLE_FONT.render(f'Timer {formatted_mins}:{formatted_secs}', True, BLACK)
+    watch = TITLE_FONT.render(f'Timer {player.format_timer()}', True, BLACK)
     WIN.blit(watch, (550, 100))
+
+    # draw lives
     lives = TITLE_FONT.render(f'Lives: {player.lives}', True, BLACK)
     WIN.blit(lives, (550, 250))
     pygame.display.update()
@@ -147,6 +145,14 @@ def main(player):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pause(WIN, WIDTH, HEIGHT, main, main_menu, get_leaderboard, player)
+                elif event.unicode.isalpha():
+                    for letter in letters:
+                        x, y, ltr, visible = letter
+                        if ltr == event.unicode.upper():
+                            letter[3] = False
+                            guessed.append(ltr)
+                            if ltr not in word:
+                                player.lives -= 1
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for letter in letters:
