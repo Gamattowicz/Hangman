@@ -3,6 +3,7 @@ import os
 from math import sqrt
 import random
 import sys
+from pathlib import Path
 
 # Display variables
 WIDTH, HEIGHT = 900, 600
@@ -58,8 +59,14 @@ HANGMAN_IMAGES = [pygame.image.load(os.path.join('Assets', f'hangman'
 
 # Game variables
 mistakes_number = 0
-words = ['FIRST', 'SECOND', 'THIRD', 'DEVELOPER']
-word = random.choice(words)
+words = []
+filename = 'words.csv'
+base_dir = Path(__file__).resolve().parent
+path = os.path.join(base_dir, filename)
+with open(path, 'r') as f:
+    for line in f:
+        words.append(line[:-1])
+word = random.choice(words).upper()
 guessed = []
 
 
