@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from player import Player
 from menu import draw_menu, pause, BACKGROUND_COLOR
+from leaderboard import get_leaderboard
 
 # Display variables
 WIDTH, HEIGHT = 900, 600
@@ -143,7 +144,7 @@ def main(player):
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pause(WIN, WIDTH, HEIGHT, main, main_menu, player)
+                    pause(WIN, WIDTH, HEIGHT, main, main_menu, get_leaderboard, player)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for letter in letters:
@@ -186,7 +187,7 @@ def main_menu(surface):
 
     while run:
         surface.fill(BACKGROUND_COLOR)
-        buttons = ['NEW GAME', 'EXIT']
+        buttons = ['NEW GAME', 'LEADERBOARD', 'EXIT']
         draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
         pygame.display.update()
 
@@ -196,18 +197,20 @@ def main_menu(surface):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    if active == 2:
+                    if active == 3:
                         active = 1
                     else:
                         active += 1
                 elif event.key == pygame.K_UP:
                     if active == 1:
-                        active = 2
+                        active = 3
                     else:
                         active -= 1
                 elif event.key == pygame.K_RETURN:
                     if active == 1:
                         main(player)
+                    elif active == 2:
+                        get_leaderboard(surface, WIDTH, HEIGHT)
                     elif active == 5:
                         pygame.quit()
                         sys.exit()

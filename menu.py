@@ -35,14 +35,14 @@ def draw_menu(surface, menu_title, buttons, width, height, active):
             draw_menu_button(surface, v, i, TEXT_COLOR, width, height)
 
 
-def pause(win, width, height, main, main_menu, player):
-    buttons = ['RESUME', 'RESTART', 'MAIN MENU', 'EXIT']
+def pause(surface, width, height, main, main_menu, get_leaderboard, player):
+    buttons = ['RESUME', 'RESTART', 'MAIN MENU', 'LEADERBOARD', 'EXIT']
     active = 1
     paused = True
 
     while paused:
-        win.fill(BACKGROUND_COLOR)
-        draw_menu(win, 'PAUSE', buttons, width, height, active)
+        surface.fill(BACKGROUND_COLOR)
+        draw_menu(surface, 'PAUSE', buttons, width, height, active)
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -69,7 +69,9 @@ def pause(win, width, height, main, main_menu, player):
                         player.restart_stats()
                         main(player)
                     elif active == 3:
-                        main_menu(win)
+                        main_menu(surface)
                     elif active == 4:
+                        get_leaderboard(surface, width, height)
+                    elif active == 5:
                         pygame.quit()
                         sys.exit()
