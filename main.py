@@ -2,6 +2,7 @@ import pygame
 import os
 from math import sqrt
 import random
+import sys
 
 # Display variables
 WIDTH, HEIGHT = 900, 600
@@ -66,7 +67,7 @@ def draw():
     WIN.fill(WHITE)
 
     # draw title
-    text = TITLE_FONT.render('HANGMAN GAME', 1, BLACK)
+    text = TITLE_FONT.render('HANGMAN GAME', True, BLACK)
     WIN.blit(text, (WIDTH/2 - text.get_width()/2, 20))
 
     # draw word
@@ -76,7 +77,7 @@ def draw():
             display_word += letter + ' '
         else:
             display_word += '_ '
-    text = WORD_FONT.render(display_word, 1, BLACK)
+    text = WORD_FONT.render(display_word, True, BLACK)
     WIN.blit(text, (350, 175))
 
     # draw buttons
@@ -84,7 +85,7 @@ def draw():
         x, y, ltr, visible = letter
         if visible:
             pygame.draw.circle(WIN, BLACK, (x, y), RADIUS, 3)
-            text = LETTER_FONT.render(ltr, 1, BLACK)
+            text = LETTER_FONT.render(ltr, True, BLACK)
             WIN.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
     # draw image
@@ -95,7 +96,7 @@ def draw():
     formatted_mins = f'0{mins}' if mins < 10 else mins
     secs = timer - mins * 60
     formatted_secs = f'0{secs}' if secs < 10 else secs
-    watch = TITLE_FONT.render(f'Timer {formatted_mins}:{formatted_secs}', 1, BLACK)
+    watch = TITLE_FONT.render(f'Timer {formatted_mins}:{formatted_secs}', True, BLACK)
     WIN.blit(watch, (550, 100))
     pygame.display.update()
 
@@ -103,7 +104,7 @@ def draw():
 def display_result(msg):
     pygame.time.delay(1500)
     WIN.fill(WHITE)
-    text = WORD_FONT.render(msg, 1, BLACK)
+    text = WORD_FONT.render(msg, True, BLACK)
     WIN.blit(text, (WIDTH / 2 - text.get_width() / 2, HEIGHT / 2 -
                     text.get_height() / 2))
     pygame.display.update()
@@ -127,7 +128,8 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for letter in letters:
@@ -158,6 +160,7 @@ def main():
             break
 
     pygame.quit()
+    sys.exit()
 
 
 if __name__ == '__main__':
