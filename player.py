@@ -7,6 +7,7 @@ class Player:
         self.score = 0
         self.timer = 0
         self.name = ''
+        self.lives = 6
 
     def format_timer(self):
         mins = self.timer // 60
@@ -42,3 +43,4 @@ class Player:
         self.score = 0
         self.timer = 0
         self.name = ''
+        self.lives = 6

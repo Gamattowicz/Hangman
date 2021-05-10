@@ -74,7 +74,7 @@ print(word)
 guessed = []
 
 
-def draw():
+def draw(player):
     WIN.fill(WHITE)
 
     # draw title
@@ -109,6 +109,8 @@ def draw():
     formatted_secs = f'0{secs}' if secs < 10 else secs
     watch = TITLE_FONT.render(f'Timer {formatted_mins}:{formatted_secs}', True, BLACK)
     WIN.blit(watch, (550, 100))
+    lives = TITLE_FONT.render(f'Lives: {player.lives}', True, BLACK)
+    WIN.blit(lives, (550, 250))
     pygame.display.update()
 
 
@@ -156,9 +158,9 @@ def main(player):
                             letter[3] = False
                             guessed.append(ltr)
                             if ltr not in word:
-                                mistakes_number += 1
+                                player.lives -= 1
 
-        draw()
+        draw(player)
 
         won = True
         for letter in word:
@@ -172,7 +174,7 @@ def main(player):
             display_result('You Won!')
             break
 
-        if mistakes_number == 6:
+        if player.lives == 0:
             display_result('You Lost!')
             break
 
@@ -211,7 +213,7 @@ def main_menu(surface):
                         main(player)
                     elif active == 2:
                         get_leaderboard(surface, WIDTH, HEIGHT)
-                    elif active == 5:
+                    elif active == 3:
                         pygame.quit()
                         sys.exit()
 
