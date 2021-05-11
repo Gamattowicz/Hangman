@@ -1,7 +1,11 @@
 import pygame
 import sys
 import os
-from menu import ACTIVE_COLOR, BACKGROUND_COLOR, TEXT_COLOR, SIDE_FONT
+from menu import ACTIVE_COLOR, BACKGROUND_COLOR, TEXT_COLOR, SIDE_FONT, TITLE_FONT
+
+
+LETTER_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 40)
+WORD_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 60)
 
 
 class Board:
@@ -83,3 +87,44 @@ class Board:
                         elif self.active == 2:
                             pygame.quit()
                             sys.exit()
+
+    def draw(self, surface, player, game, board):
+        surface.fill(BACKGROUND_COLOR)
+
+        # draw title
+        text = TITLE_FONT.render('HANGMAN GAME', True, TEXT_COLOR)
+        surface.blit(text, (self.width / 2 - text.get_width() / 2, 20))
+
+        # draw word
+        display_word = ''
+        for letter in game.word:
+            if letter in game.guessed:
+                display_word += letter + ' '
+            else:
+                display_word += '_ '
+        text = WORD_FONT.render(display_word, True, TEXT_COLOR)
+        surface.blit(text, (350, 175))
+
+        # draw buttons
+        for letter in game.letters:
+            x, y, ltr, visible, clicked = letter
+            if visible:
+                if clicked:
+                    pygame.draw.circle(surface, (255, 0, 0), (x, y), game.radius, 3)
+                else:
+                    pygame.draw.circle(surface, TEXT_COLOR, (x, y), game.radius, 3)
+
+                text = LETTER_FONT.render(ltr, True, TEXT_COLOR)
+                surface.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
+
+        # draw image
+        surface.blit(board.HANGMAN_IMAGES[player.lives], (100, 100))
+
+        # draw timer
+        watch = TITLE_FONT.render(f'Timer {player.format_timer()}', True, TEXT_COLOR)
+        surface.blit(watch, (850, 100))
+
+        # draw lives
+        lives = TITLE_FONT.render(f'Lives: {player.lives}', True, TEXT_COLOR)
+        surface.blit(lives, (850, 250))
+        pygame.display.update()
