@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 from menu import ACTIVE_COLOR, BACKGROUND_COLOR, TEXT_COLOR, SIDE_FONT
 
 
@@ -8,6 +9,10 @@ class Board:
         self.width = width
         self.height = height
         self.active = 1
+
+        # Load assets
+        self.HANGMAN_IMAGES = [pygame.image.load(os.path.join('Assets', f'hangman'
+                                                         f'{num}.png')) for num in range(7)]
 
     def draw_name(self, surface, player, board, main, word):
         draw = True
