@@ -7,6 +7,7 @@ from pathlib import Path
 from player import Player
 from menu import draw_menu, pause, BACKGROUND_COLOR
 from leaderboard import get_leaderboard
+from board import Board
 
 # Display variables
 WIDTH, HEIGHT = 1200, 700
@@ -117,7 +118,7 @@ def draw(player):
 
 def display_result(msg):
     pygame.time.delay(1500)
-    WIN.fill(WHITE)
+    WIN.fill(BACKGROUND_COLOR)
     text = WORD_FONT.render(msg, True, BLACK)
     WIN.blit(text, (WIDTH / 2 - text.get_width() / 2, HEIGHT / 2 -
                     text.get_height() / 2))
@@ -125,10 +126,11 @@ def display_result(msg):
     pygame.time.delay(3000)
 
 
-def main(player):
+def main(player, surface):
     global timer
 
     time_elapsed = 0
+    board = Board(WIDTH, HEIGHT)
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -188,7 +190,7 @@ def main(player):
             break
 
         if player.lives == 0:
-            display_result(f'You Lost! Password was {word}')
+            board.draw_name(surface, player, board, main, word)
             break
 
     pygame.quit()
@@ -223,7 +225,7 @@ def main_menu(surface):
                         active -= 1
                 elif event.key == pygame.K_RETURN:
                     if active == 1:
-                        main(player)
+                        main(player, surface)
                     elif active == 2:
                         get_leaderboard(surface, WIDTH, HEIGHT)
                     elif active == 3:
