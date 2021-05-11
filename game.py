@@ -14,7 +14,7 @@ class Game:
         self.word = ''
         self.guessed = []
 
-    def draw_letters(self):
+    def draw_letters(self, player):
         # First row coordinates
         startx = round((self.width - (self.radius * 2 + self.gap) * 10) / 2)
         starty = 475
@@ -48,5 +48,18 @@ class Game:
         with open(path, 'r') as f:
             for line in f:
                 self.words.append(line[:-1])
-        self.word = random.choice(self.words).upper()
+        for i in range(100):
+            word = random.choice(self.words).upper()
+            if player.difficulty == 1:
+                if len(word) < 5:
+                    self.word = word
+                    break
+            elif player.difficulty == 2:
+                if 5 < len(word) < 8:
+                    self.word = word
+                    break
+            else:
+                if len(word) > 8:
+                    self.word = word
+                    break
         print(self.word)

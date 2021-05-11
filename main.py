@@ -71,7 +71,7 @@ def main(player, surface):
     time_elapsed = 0
     board = Board(WIDTH, HEIGHT)
     game = Game(WIDTH, HEIGHT, 30, 20)
-    game.draw_letters()
+    game.draw_letters(player)
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -141,10 +141,11 @@ def main_menu(surface):
     active = 1
     player = Player()
     run = True
+    difficulties = ['LOW', 'MEDIUM', 'HARD']
 
     while run:
         surface.fill(BACKGROUND_COLOR)
-        buttons = ['NEW GAME', 'LEADERBOARD', 'EXIT']
+        buttons = ['NEW GAME', f'LEVEL OF DIFFICULTY: {difficulties[player.difficulty - 1]}', 'LEADERBOARD', 'EXIT']
         draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
         pygame.display.update()
 
@@ -154,21 +155,26 @@ def main_menu(surface):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    if active == 3:
+                    if active == 4:
                         active = 1
                     else:
                         active += 1
                 elif event.key == pygame.K_UP:
                     if active == 1:
-                        active = 3
+                        active = 4
                     else:
                         active -= 1
                 elif event.key == pygame.K_RETURN:
                     if active == 1:
                         main(player, surface)
                     elif active == 2:
-                        get_leaderboard(surface, WIDTH, HEIGHT)
+                        if player.difficulty == 3:
+                            player.difficulty = 1
+                        else:
+                            player.difficulty += 1
                     elif active == 3:
+                        get_leaderboard(surface, WIDTH, HEIGHT)
+                    elif active == 4:
                         pygame.quit()
                         sys.exit()
 

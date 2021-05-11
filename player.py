@@ -8,6 +8,7 @@ class Player:
         self.timer = 0
         self.name = ''
         self.lives = 6
+        self.difficulty = 2
 
     def format_timer(self):
         mins = self.timer // 60
