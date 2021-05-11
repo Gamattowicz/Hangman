@@ -188,7 +188,7 @@ def main(player):
             break
 
         if player.lives == 0:
-            display_result('You Lost!')
+            display_result(f'You Lost! Password was {word}')
             break
 
     pygame.quit()
