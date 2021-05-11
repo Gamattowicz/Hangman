@@ -36,7 +36,7 @@ qwerty_keyboard = 'QWERTYUIOP'
 for i in range(10):
     x = startx + GAP * 2 + (RADIUS * 2 + GAP) * (i % 10)
     y = starty + ((i // 10) * (GAP + RADIUS * 2))
-    letters.append([x, y, qwerty_keyboard[i], True])
+    letters.append([x, y, qwerty_keyboard[i], True, False])
 
 # Second row coordinates
 startx2 = round((WIDTH - (RADIUS * 2 + GAP) * 9) / 2)
@@ -45,7 +45,7 @@ qwerty_keyboard2 = 'ASDFGHJKL'
 for i in range(9):
     x = startx2 + GAP * 2 + (RADIUS * 2 + GAP) * (i % 9)
     y = starty2 + ((i // 9) * (GAP + RADIUS * 2))
-    letters.append([x, y, qwerty_keyboard2[i], True])
+    letters.append([x, y, qwerty_keyboard2[i], True, False])
 
 # Third row coordinates
 startx3 = round((WIDTH - (RADIUS * 2 + GAP) * 7) / 2)
@@ -54,14 +54,13 @@ qwerty_keyboard3 = 'ZXCVBNM'
 for i in range(7):
     x = startx3 + GAP * 2 + (RADIUS * 2 + GAP) * (i % 7)
     y = starty3 + ((i // 7) * (GAP + RADIUS * 2))
-    letters.append([x, y, qwerty_keyboard3[i], True])
+    letters.append([x, y, qwerty_keyboard3[i], True, False])
 
 # Load assets
 HANGMAN_IMAGES = [pygame.image.load(os.path.join('Assets', f'hangman'
                                                  f'{num}.png')) for num in range(7)]
 
 # Game variables
-mistakes_number = 0
 words = []
 filename = 'words.csv'
 base_dir = Path(__file__).resolve().parent
@@ -93,14 +92,18 @@ def draw(player):
 
     # draw buttons
     for letter in letters:
-        x, y, ltr, visible = letter
+        x, y, ltr, visible, clicked = letter
         if visible:
-            pygame.draw.circle(WIN, BLACK, (x, y), RADIUS, 3)
+            if clicked:
+                pygame.draw.circle(WIN, (255, 0, 0), (x, y), RADIUS, 3)
+            else:
+                pygame.draw.circle(WIN, BLACK, (x, y), RADIUS, 3)
+
             text = LETTER_FONT.render(ltr, True, BLACK)
             WIN.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
     # draw image
-    WIN.blit(HANGMAN_IMAGES[mistakes_number], (100, 100))
+    WIN.blit(HANGMAN_IMAGES[player.lives], (100, 100))
 
     # draw timer
     watch = TITLE_FONT.render(f'Timer {player.format_timer()}', True, BLACK)
@@ -123,7 +126,6 @@ def display_result(msg):
 
 
 def main(player):
-    global mistakes_number
     global timer
 
     time_elapsed = 0
@@ -147,8 +149,11 @@ def main(player):
                     pause(WIN, WIDTH, HEIGHT, main, main_menu, get_leaderboard, player)
                 elif event.unicode.isalpha():
                     for letter in letters:
-                        x, y, ltr, visible = letter
+                        x, y, ltr, visible, clicked = letter
                         if ltr == event.unicode.upper():
+                            letter[4] = True
+                            draw(player)
+                            pygame.time.delay(200)
                             letter[3] = False
                             guessed.append(ltr)
                             if ltr not in word:
@@ -156,10 +161,12 @@ def main(player):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for letter in letters:
-                    x, y, ltr, visible = letter
+                    x, y, ltr, visible, clicked = letter
                     if visible:
                         dist = sqrt((x - mouse_x)**2 + (y - mouse_y)**2)
                         if dist < RADIUS:
+                            letter[4] = True
+                            draw(player)
                             pygame.time.delay(200)
                             letter[3] = False
                             guessed.append(ltr)
