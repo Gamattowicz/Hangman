@@ -127,11 +127,11 @@ def main(player, surface):
         if won:
             player.score += 10
             player.save_score(player.format_timer)
-            board.draw_name(surface, player, board, main, game.word)
+            board.draw_name(surface, player, board, main, game.word, 'Won')
             break
 
         if player.lives == 0:
-            board.draw_name(surface, player, board, main, game.word)
+            board.draw_name(surface, player, board, main, game.word, 'Lost')
             break
 
     pygame.quit()

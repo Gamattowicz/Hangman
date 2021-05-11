@@ -14,7 +14,7 @@ class Board:
         self.HANGMAN_IMAGES = [pygame.image.load(os.path.join('Assets', f'hangman'
                                                          f'{num}.png')) for num in range(7)]
 
-    def draw_name(self, surface, player, board, main, word):
+    def draw_name(self, surface, player, board, main, word, win):
         draw = True
         while draw:
             for event in pygame.event.get():
@@ -27,7 +27,7 @@ class Board:
                         draw = False
             surface.fill(BACKGROUND_COLOR)
 
-            lost_text = SIDE_FONT.render(f'You Lost! Password was {word}', True, TEXT_COLOR)
+            lost_text = SIDE_FONT.render(f'You {win}! Password was {word}', True, TEXT_COLOR)
             surface.blit(lost_text, (self.width / 2 - lost_text.get_width() / 2, self.height / 10))
 
             input_text = SIDE_FONT.render('Enter your name:', True, TEXT_COLOR)
