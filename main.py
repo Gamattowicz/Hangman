@@ -125,8 +125,7 @@ def main(player, surface):
                 break
 
         if won:
-            player.score += 10
-            player.save_score(player.format_timer)
+            player.score += 10 * len(game.word)
             board.draw_name(surface, player, board, main, game.word, 'Won')
             break
 
