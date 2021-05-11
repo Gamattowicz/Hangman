@@ -9,7 +9,7 @@ from menu import draw_menu, pause, BACKGROUND_COLOR
 from leaderboard import get_leaderboard
 
 # Display variables
-WIDTH, HEIGHT = 900, 600
+WIDTH, HEIGHT = 1200, 700
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('HANGMAN GAME')
 pygame.init()
@@ -31,7 +31,7 @@ letters = []
 
 # First row coordinates
 startx = round((WIDTH - (RADIUS * 2 + GAP) * 10) / 2)
-starty = 375
+starty = 475
 qwerty_keyboard = 'QWERTYUIOP'
 for i in range(10):
     x = startx + GAP * 2 + (RADIUS * 2 + GAP) * (i % 10)
@@ -74,7 +74,7 @@ guessed = []
 
 
 def draw(player):
-    WIN.fill(WHITE)
+    WIN.fill(BACKGROUND_COLOR)
 
     # draw title
     text = TITLE_FONT.render('HANGMAN GAME', True, BLACK)
@@ -107,11 +107,11 @@ def draw(player):
 
     # draw timer
     watch = TITLE_FONT.render(f'Timer {player.format_timer()}', True, BLACK)
-    WIN.blit(watch, (550, 100))
+    WIN.blit(watch, (850, 100))
 
     # draw lives
     lives = TITLE_FONT.render(f'Lives: {player.lives}', True, BLACK)
-    WIN.blit(lives, (550, 250))
+    WIN.blit(lives, (850, 250))
     pygame.display.update()
 
 
