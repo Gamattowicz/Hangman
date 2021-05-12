@@ -13,10 +13,6 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('HANGMAN GAME')
 pygame.init()
 
-# Colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
 
 def main(player, surface):
     time_elapsed = 0
@@ -51,6 +47,10 @@ def main(player, surface):
                             game.guessed.append(ltr)
                             if ltr not in game.word:
                                 player.lives -= 1
+                                if player.lives == 0:
+                                    pygame.time.delay(200)
+                                    board.draw_name(surface, player, board, main, game.word, 'Lost')
+                                    break
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for letter in game.letters:
@@ -65,6 +65,10 @@ def main(player, surface):
                             game.guessed.append(ltr)
                             if ltr not in game.word:
                                 player.lives -= 1
+                                if player.lives == 0:
+                                    pygame.time.delay(200)
+                                    board.draw_name(surface, player, board, main, game.word, 'Lost')
+                                    break
 
         board.draw(surface, player, game, board)
 
@@ -79,9 +83,7 @@ def main(player, surface):
             board.draw_name(surface, player, board, main, game.word, 'Won')
             break
 
-        if player.lives == 0:
-            board.draw_name(surface, player, board, main, game.word, 'Lost')
-            break
+
 
     pygame.quit()
     sys.exit()
