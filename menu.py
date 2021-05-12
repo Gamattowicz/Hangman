@@ -3,8 +3,8 @@ import sys
 
 pygame.font.init()
 
-TITLE_FONT = pygame.font.Font('Raleway-ExtraBold.ttf', 50)
-SIDE_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
+TITLE_FONT = pygame.font.Font('Arvo-Bold.ttf', 50)
+SIDE_FONT = pygame.font.Font('FrankRuhlLibre-Regular.ttf', 30)
 BACKGROUND_COLOR = (29, 34, 40)
 TEXT_COLOR = (251, 129, 34)
 ACTIVE_COLOR = (225, 226, 226)

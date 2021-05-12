@@ -3,10 +3,9 @@ import sys
 import os
 from menu import ACTIVE_COLOR, BACKGROUND_COLOR, TEXT_COLOR, SIDE_FONT, TITLE_FONT
 
-
-LETTER_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
-WORD_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 60)
-
+#Arco title or Catamaran
+BUTTON_FONT = pygame.font.Font('Cairo-SemiBold.ttf', 30)
+PASSWORD_FONT = pygame.font.Font('Cairo-SemiBold.ttf', 50)
 
 class Board:
     def __init__(self, width, height):
@@ -102,7 +101,7 @@ class Board:
                 display_word += letter + ' '
             else:
                 display_word += '_ '
-        text = WORD_FONT.render(display_word, True, TEXT_COLOR)
+        text = PASSWORD_FONT.render(display_word, True, TEXT_COLOR)
         surface.blit(text, (350, 175))
 
         # draw buttons
@@ -111,10 +110,10 @@ class Board:
             if visible:
                 if clicked:
                     pygame.draw.circle(surface, ACTIVE_COLOR, (x, y), game.radius, 3)
-                    text = LETTER_FONT.render(ltr, True, ACTIVE_COLOR)
+                    text = BUTTON_FONT.render(ltr, True, ACTIVE_COLOR)
                 else:
                     pygame.draw.circle(surface, TEXT_COLOR, (x, y), game.radius, 3)
-                    text = LETTER_FONT.render(ltr, True, TEXT_COLOR)
+                    text = BUTTON_FONT.render(ltr, True, TEXT_COLOR)
                 surface.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
         # draw image
