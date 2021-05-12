@@ -4,7 +4,7 @@ import os
 from menu import ACTIVE_COLOR, BACKGROUND_COLOR, TEXT_COLOR, SIDE_FONT, TITLE_FONT
 
 
-LETTER_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 40)
+LETTER_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
 WORD_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 60)
 
 
@@ -16,7 +16,7 @@ class Board:
 
         # Load assets
         self.HANGMAN_IMAGES = [pygame.image.load(os.path.join('Assets', f'hangman'
-                                                         f'{num}.png')) for num in range(7)]
+                                                 f'{num}.png')) for num in range(7)]
 
     def draw_name(self, surface, player, board, main, word, win):
         draw = True
@@ -110,11 +110,11 @@ class Board:
             x, y, ltr, visible, clicked = letter
             if visible:
                 if clicked:
-                    pygame.draw.circle(surface, (255, 0, 0), (x, y), game.radius, 3)
+                    pygame.draw.circle(surface, ACTIVE_COLOR, (x, y), game.radius, 3)
+                    text = LETTER_FONT.render(ltr, True, ACTIVE_COLOR)
                 else:
                     pygame.draw.circle(surface, TEXT_COLOR, (x, y), game.radius, 3)
-
-                text = LETTER_FONT.render(ltr, True, TEXT_COLOR)
+                    text = LETTER_FONT.render(ltr, True, TEXT_COLOR)
                 surface.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
         # draw image

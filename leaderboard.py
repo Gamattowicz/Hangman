@@ -1,9 +1,7 @@
 import pygame
 import csv
 import sys
-from menu import TITLE_FONT, SIDE_FONT, BACKGROUND_COLOR, TEXT_COLOR
-
-MAIN_ROW_COLOR = (41, 100, 138)
+from menu import TITLE_FONT, SIDE_FONT, BACKGROUND_COLOR, TEXT_COLOR, ACTIVE_COLOR
 
 
 def draw_leaderboard(surface, leaderboard, width, height):
@@ -16,7 +14,7 @@ def draw_leaderboard(surface, leaderboard, width, height):
         for index, j in enumerate(v):
             # draw title row
             if i == 0:
-                label = SIDE_FONT.render(j, True, MAIN_ROW_COLOR)
+                label = SIDE_FONT.render(j, True, ACTIVE_COLOR)
                 button_x = width / 2 - label.get_width() / 2
                 surface.blit(label, (button_x + width_btn, height / 3 - 100))
             else:
