@@ -48,7 +48,8 @@ def main(player, surface):
                             if ltr not in game.word:
                                 player.lives -= 1
                                 if player.lives == 0:
-                                    pygame.time.delay(200)
+                                    board.draw(surface, player, game, board)
+                                    pygame.time.delay(1000)
                                     board.draw_name(surface, player, board, main, game.word, 'Lost')
                                     break
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -60,13 +61,15 @@ def main(player, surface):
                         if dist < game.radius:
                             letter[4] = True
                             board.draw(surface, player, game, board)
-                            pygame.time.delay(200)
+                            pygame.time.delay(500)
                             letter[3] = False
                             game.guessed.append(ltr)
                             if ltr not in game.word:
                                 player.lives -= 1
                                 if player.lives == 0:
-                                    pygame.time.delay(200)
+
+                                    board.draw(surface, player, game, board)
+                                    pygame.time.delay(500)
                                     board.draw_name(surface, player, board, main, game.word, 'Lost')
                                     break
 
@@ -80,6 +83,8 @@ def main(player, surface):
 
         if won:
             player.score += 10 * len(game.word)
+            board.draw(surface, player, game, board)
+            pygame.time.delay(500)
             board.draw_name(surface, player, board, main, game.word, 'Won')
             break
 

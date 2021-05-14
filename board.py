@@ -20,28 +20,31 @@ class Board:
     def draw_name(self, surface, player, board, main, word, win):
         draw = True
         while draw:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.unicode.isalpha():
-                        player.name += event.unicode
-                    elif event.key == pygame.K_BACKSPACE:
-                        player.name = player.name[:-1]
-                    elif event.key == pygame.K_RETURN or event.type == pygame.QUIT:
-                        draw = False
             surface.fill(BACKGROUND_COLOR)
-
             lost_text = SIDE_FONT.render(f'You {win}! Password was {word}', True, TEXT_COLOR)
-            surface.blit(lost_text, (self.width / 2 - lost_text.get_width() / 2, self.height / 10))
+            surface.blit(lost_text, (self.width / 2 - lost_text.get_width() / 2, self.height / 5))
+            if win == 'Won':
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        if event.unicode.isalpha():
+                            player.name += event.unicode
+                        elif event.key == pygame.K_BACKSPACE:
+                            player.name = player.name[:-1]
+                        elif event.key == pygame.K_RETURN or event.type == pygame.QUIT:
+                            draw = False
 
-            input_text = SIDE_FONT.render('Enter your name:', True, TEXT_COLOR)
-            surface.blit(input_text, (self.width / 2 - input_text.get_width() / 2, self.height / 4 + 50))
+                input_text = SIDE_FONT.render('Enter your name:', True, TEXT_COLOR)
+                surface.blit(input_text, (self.width / 2 - input_text.get_width() / 2, self.height / 4 + 50))
 
-            block = SIDE_FONT.render(player.name, True, TEXT_COLOR)
-            rect = block.get_rect()
-            rect.center = surface.get_rect().center
-            surface.blit(block, rect)
-            pygame.display.update()
-
+                block = SIDE_FONT.render(player.name, True, TEXT_COLOR)
+                rect = block.get_rect()
+                rect.center = surface.get_rect().center
+                surface.blit(block, rect)
+                pygame.display.update()
+            else:
+                pygame.display.update()
+                pygame.time.delay(2500)
+                draw = False
         if player.score > 0:
             player.save_score(player.format_timer)
         board.draw_lost_text(surface, player, main)
