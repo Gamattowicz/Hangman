@@ -3,8 +3,8 @@ import sys
 import os
 from menu import ACTIVE_COLOR, BACKGROUND_COLOR, TEXT_COLOR, SIDE_FONT, TITLE_FONT
 
-BUTTON_FONT = pygame.font.Font('Cairo-SemiBold.ttf', 30)
-PASSWORD_FONT = pygame.font.Font('Cairo-SemiBold.ttf', 50)
+BUTTON_FONT = pygame.font.Font('fonts/Cairo-SemiBold.ttf', 30)
+PASSWORD_FONT = pygame.font.Font('fonts/Cairo-SemiBold.ttf', 50)
 
 
 class Board:
