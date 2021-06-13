@@ -88,8 +88,6 @@ def main(player, surface):
             board.draw_name(surface, player, board, main, game.word, 'Won')
             break
 
-
-
     pygame.quit()
     sys.exit()
 
