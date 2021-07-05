@@ -67,7 +67,7 @@ def pause(surface, width, height, main, main_menu, get_leaderboard, player):
                         paused = False
                     elif active == 2:
                         player.restart_stats()
-                        main(player)
+                        main(player, surface)
                     elif active == 3:
                         main_menu(surface)
                     elif active == 4:
